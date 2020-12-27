@@ -4,6 +4,9 @@ import sys
 import timeit
 from importlib.metadata import version
 
+import matplotlib.pyplot as plt
+import numpy as np
+
 TEST_DATA = (
     """
 # h1 Heading
@@ -137,7 +140,7 @@ With a reference later in the document defining the URL location:
 [id]: https://octodex.github.com/images/dojocat.jpg  "The Dojocat"
 
 """
-    * 1000
+    * 500
 )
 
 
@@ -180,13 +183,29 @@ markdown({TEST_DATA!r})
     umarkdown_time = timeit.timeit(stmt=umarkdown_code, number=10)
     python_markdown_time = timeit.timeit(stmt=markdown_code, number=10)
     python_markdown_2_time = timeit.timeit(stmt=markdown2_code, number=10)
-    print(
-        f"""
-        |  python-markdown  |   python-markdown2  |  umarkdown  |
-        | ----------------- | ------------------- | ----------- |
-        |     {round(python_markdown_time,3)}s       |      {round(python_markdown_2_time,3)}s       |    {round(umarkdown_time,3)}s   |
-        """
+    x = np.array(["Ultra Markdown", "Python-Markdown", "Python-Markdown2"])
+    y = np.array([umarkdown_time, python_markdown_time, python_markdown_2_time])
+    plt.figure(figsize=(9, 7))
+    plt.bar(x, y)
+    plt.title(
+        "Test Machine: \n"
+        f"{uname_system} {uname_release} { uname_processor} { uname_version}\n\n"
+        "Version: \n"
+        "- {} {}\n".format(
+            platform.python_implementation(), sys.version.replace("\n", "")
+        )
+        + f'- python-markdown: {version("markdown")}\n'
+        f'- python-markdown2: {version("markdown2")}\n'
+        f'- umarkdown: {version("umarkdown")}\n\n'
+        "Test File Size: 1MB\n\n",
+        fontweight="bold",
     )
+    plt.ylabel("Time in second, lower is better.")
+    plt.xlabel("Markdown parsers")
+    plt.savefig(
+        "docs/images/benchmarks.svg", bbox_inches="tight", dpi=1000, pad_inches=1
+    )
+    print("Benchmarks report saved to docs/images/benchmarks.svg")
 
 
 if __name__ == "__main__":

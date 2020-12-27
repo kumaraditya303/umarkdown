@@ -1,4 +1,3 @@
+# Benchmarks
 
-|     |     |
-| --- | --- |
-|     |     |
+![](./images/benchmarks.svg)

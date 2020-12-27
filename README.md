@@ -8,7 +8,7 @@ Ultra Markdown, an ultra fast (high performance) Markdown parser compliant with 
 
 **Source** : [https://github.com/kumaraditya303/umarkdown](https://github.com/kumaraditya303/umarkdown)
 
-** Docs** : [https://kumaraditya303.github.io/umarkdown](https://kumaraditya303.github.io/umarkdown/)
+**Docs** : [https://kumaraditya303.github.io/umarkdown](https://kumaraditya303.github.io/umarkdown/)
 
 ---
 
@@ -42,6 +42,6 @@ Can be used as a drop in replacement for most Markdown parsers.
 
 ## Benchmarks
 
-|     |     |
-| --- | --- |
-|     |     |
+![](./docs/images/benchmarks.svg)
+
+---
