@@ -1,10 +1,15 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - "master"
+  pull_request:
 
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -21,16 +26,16 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
+          pip install -e .
           python setup.py bdist_wheel
-          pip install -e .[cli]
       - name: Upload wheels
         uses: actions/upload-artifact@v2
         with:
           name: wheels
           path: dist/*.whl
       - name: Lint
-        run: |
-          pre-commit run --all-files
+        run: pre-commit run --all-files
       - name: Test with Pytest
-        run: |
-          pytest
+        run: pytest
+      - name: Upload Coverage Report
+        uses: codecov/codecov-action@v1.0.15

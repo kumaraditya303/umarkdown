@@ -1,6 +1,6 @@
 site_name: Ultra Markdown
 site_description: Ultra Markdown, ultra fast (high performance) Markdown parser compliant with the markdown written in pure C with bindings for Python 3.7+.
-site_url: https://umarkdown.kumaraditya303.com
+site_url: https://kumaraditya303.github.io/umarkdown
 theme:
   name: material
   language: en
@@ -22,8 +22,9 @@ google_analytics:
   - auto
 repo_name: kumaraditya303/umarkdown
 repo_url: https://github.com/kumaraditya303/umarkdown
-edit_uri: ''
+edit_uri: ""
 nav:
   - Ultra Markdown: index.md
   - Parsing Options: options.md
+  - Cli: cli.md
   - Benchmarks: benchmarks.md

@@ -3,7 +3,7 @@ from typing import TextIO
 
 try:
     import click
-except ImportError:
+except ImportError:  # pragma:no cover
     print(
         """
             ===========================================

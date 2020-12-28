@@ -1,3 +1,4 @@
+#define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include <cmark.h>
 //=========================================================================
@@ -28,12 +29,12 @@ static PyObject *markdown(PyObject *self, PyObject *args, PyObject *kwargs)
                                      &output_file, &osourcepos, &ohardbreaks, &onobreaks,
                                      &osmart, &ounsafe, &ovalidateutf8))
     {
-        Py_RETURN_NONE;
+        return NULL;
     }
     if ((text == NULL && text_file == NULL) || (text != NULL && text_file != NULL))
     {
         PyErr_SetString(PyExc_TypeError, "either provide text or text_file");
-        Py_RETURN_NONE;
+        return NULL;
     }
 
     if (osourcepos != NULL && PyObject_IsTrue(osourcepos))
@@ -67,7 +68,7 @@ static PyObject *markdown(PyObject *self, PyObject *args, PyObject *kwargs)
         if (fin == NULL)
         {
             PyErr_SetString(PyExc_ValueError, "file not found");
-            Py_RETURN_NONE;
+            return NULL;
         }
 
         cmark_node *doc = cmark_parse_file(fin, options);
@@ -82,7 +83,7 @@ static PyObject *markdown(PyObject *self, PyObject *args, PyObject *kwargs)
             fclose(fout);
             if (PyErr_Occurred())
             {
-                Py_RETURN_NONE;
+                return NULL;
             }
             Py_RETURN_TRUE;
         }
@@ -94,7 +95,7 @@ static PyObject *markdown(PyObject *self, PyObject *args, PyObject *kwargs)
 }
 
 static PyMethodDef methods[] = {
-    {"markdown", markdown, METH_VARARGS | METH_KEYWORDS, "Converts Markdown to HTML.\
+    {"markdown", (PyCFunction)markdown, METH_VARARGS | METH_KEYWORDS, "Converts Markdown to HTML.\
 Set source_pos=True to include source position attribute.\
 Set hard_breaks=True to treat newlines as hard line breaks.\
 Set no_breaks=True to render soft line breaks as spaces.\

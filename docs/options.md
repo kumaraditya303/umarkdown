@@ -55,7 +55,20 @@ Used to treat newlines as hard line breaks.
 
 ```python
 >>> from umarkdown import markdown
->>> print(markdown("Hello,\nWorld!", no_breaks=True))
+>>> print(markdown("Hello,\nWorld!", hard_breaks=True))
+<p>Hello,<br />
+World!</p>
+```
+
+---
+
+- ## **no_breaks**
+
+Used to render soft line breaks as spaces.
+
+```python
+>>> from umarkdown import markdown
+>>> print(markdown("Hello,\n*World*!", no_breaks=True))
 <p>Hello, <em>World</em>!</p>
 ```
 

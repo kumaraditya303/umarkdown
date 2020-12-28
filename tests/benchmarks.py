@@ -2,7 +2,7 @@
 import platform
 import sys
 import timeit
-from importlib.metadata import version
+from importlib.metadata import version  # type:ignore
 
 import matplotlib.pyplot as plt
 import numpy as np
