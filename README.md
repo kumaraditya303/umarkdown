@@ -54,4 +54,6 @@ Can be used as a drop in replacement for most Markdown parsers.
 
 ![](./docs/images/benchmarks.svg)
 
+- Lower time is better.
+
 ---
