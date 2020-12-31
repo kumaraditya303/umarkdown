@@ -63,4 +63,4 @@ jobs:
       - name: Test with Pytest
         run: pytest
       - name: Upload Coverage Report
-        uses: codecov/codecov-action@v1.0.15
+        uses: codecov/codecov-action@v1.1.1
