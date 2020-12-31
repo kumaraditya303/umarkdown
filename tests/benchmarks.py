@@ -184,7 +184,9 @@ markdown({TEST_DATA!r})
     python_markdown_time = timeit.timeit(stmt=markdown_code, number=10)
     python_markdown_2_time = timeit.timeit(stmt=markdown2_code, number=10)
     x = np.array(["Ultra Markdown", "Python-Markdown", "Python-Markdown2"])
-    y = np.array([umarkdown_time, python_markdown_time, python_markdown_2_time])
+    y = np.array(
+        [1 / umarkdown_time, 1 / python_markdown_time, 1 / python_markdown_2_time]
+    )
     plt.figure(figsize=(9, 7))
     plt.bar(x, y)
     plt.title(
@@ -200,7 +202,7 @@ markdown({TEST_DATA!r})
         "Test File Size: 1MB\n\n",
         fontweight="bold",
     )
-    plt.ylabel("Time in second, lower is better.")
+    plt.ylabel("MB/s")
     plt.xlabel("Markdown parsers")
     plt.savefig(
         "docs/images/benchmarks.svg", bbox_inches="tight", dpi=1000, pad_inches=1
