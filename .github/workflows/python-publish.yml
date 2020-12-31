@@ -42,6 +42,7 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
         run: |
           docker run -v `pwd`:/io quay.io/pypa/manylinux2014_x86_64 /io/scripts/manylinux.sh
+          docker run -v `pwd`:/io quay.io/pypa/manylinux2014_i686 /io/scripts/manylinux.sh
           twine upload --skip-existing dist/*
       - name: Upload wheels
         uses: actions/upload-artifact@v2

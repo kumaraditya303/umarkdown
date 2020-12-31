@@ -14,7 +14,10 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.7", "3.8", "3.9"]
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            python-version: 3.9
 
     steps:
       - uses: actions/checkout@v2
@@ -22,12 +25,34 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
+      - uses: actions/cache@v2
+        if: startsWith(runner.os, 'Linux')
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - uses: actions/cache@v2
+        if: startsWith(runner.os, 'macOS')
+        with:
+          path: ~/Library/Caches/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
           pip install -e .
-          python setup.py bdist_wheel
+      - name: Build Wheels
+        if: matrix.os != 'ubuntu-latest'
+        run: python setup.py bdist_wheel
+      - name: Build Linux Wheels
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          docker run -v `pwd`:/io quay.io/pypa/manylinux2014_x86_64 /io/scripts/manylinux.sh
+          docker run -v `pwd`:/io quay.io/pypa/manylinux2014_i686 /io/scripts/manylinux.sh
       - name: Upload wheels
         uses: actions/upload-artifact@v2
         with:
