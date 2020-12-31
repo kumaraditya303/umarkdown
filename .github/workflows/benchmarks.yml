@@ -7,6 +7,7 @@ on:
 
 jobs:
   benchmarks:
+    name: Benchmarks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -22,8 +23,10 @@ jobs:
           pip install -e .
       - name: Benchmark
         run: python tests/benchmarks.py
-      - name: Upload benchmarks and docs
+      - name: Upload benchmarks
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "test: Update benchmarks"
           branch: master
+      - name: Upload Docs
+        run: mkdocs gh-deploy
