@@ -1,23 +1,21 @@
 name: CI
-
 on:
+  workflow_dispatch:
   push:
     branches:
       - "master"
   pull_request:
 
 jobs:
-  test:
+  ci:
+    name: CI on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         python-version: ["3.7", "3.8", "3.9"]
-        os: [windows-latest, macos-latest]
-        include:
-          - os: ubuntu-latest
-            python-version: 3.9
+        os: [windows-latest, macos-latest, ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v2
@@ -25,42 +23,35 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - uses: actions/cache@v2
-        if: startsWith(runner.os, 'Linux')
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      - uses: actions/cache@v2
-        if: startsWith(runner.os, 'macOS')
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        if: matrix.os == 'macos-latest'
         with:
           path: ~/Library/Caches/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+          restore-keys: ${{ runner.os }}-pip-
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
-          pip install --upgrade pip
+          pip install --upgrade pip wheel
           pip install -r requirements.txt
           pip install -e .
+      - name: Lint
+        run: pre-commit run --all-files
       - name: Build Wheels
-        if: matrix.os != 'ubuntu-latest'
         run: python setup.py bdist_wheel
-      - name: Build Linux Wheels
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          docker run -v `pwd`:/io quay.io/pypa/manylinux2014_x86_64 /io/scripts/manylinux.sh
-          docker run -v `pwd`:/io quay.io/pypa/manylinux2014_i686 /io/scripts/manylinux.sh
-      - name: Upload wheels
+      - name: Upload Wheels
         uses: actions/upload-artifact@v2
         with:
           name: wheels
           path: dist/*.whl
-      - name: Lint
-        run: pre-commit run --all-files
-      - name: Test with Pytest
+      - name: Test with PyTest
         run: pytest
       - name: Upload Coverage Report
         uses: codecov/codecov-action@v1.1.1
