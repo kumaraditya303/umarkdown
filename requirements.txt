@@ -1,5 +1,4 @@
 click==7.1.2
-importlib_metadata==3.3.0
 Markdown==3.3.3
 markdown2==2.3.10
 matplotlib==3.3.3

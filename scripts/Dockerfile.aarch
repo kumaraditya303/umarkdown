@@ -1,0 +1,10 @@
+FROM quay.io/pypa/manylinux2014_aarch64
+
+RUN mkdir -p /io/
+COPY . /io/
+WORKDIR /io/
+
+RUN ./scripts/manylinux.sh
+
+FROM scratch
+COPY --from=0 /io/dist /wheelhouse

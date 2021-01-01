@@ -42,6 +42,9 @@ jobs:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
         run: |
+          mkdir -p dist
+          docker buildx build --platform linux/arm64 --output tmpwheelhouse -f scripts/Dockerfile.aarch .
+          mv tmpwheelhouse/wheelhouse/*.whl dist/
           docker run -v `pwd`:/io quay.io/pypa/manylinux2014_x86_64 /io/scripts/manylinux.sh
           docker run -v `pwd`:/io quay.io/pypa/manylinux2014_i686 /io/scripts/manylinux.sh
           twine upload --skip-existing dist/*
