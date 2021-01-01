@@ -7,17 +7,13 @@ on:
 
 jobs:
   deploy:
-    name: Deploy
+    name: Deploy ${{ matrix.os }} wheels
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         python-version: ["3.7", "3.8", "3.9"]
         os: [windows-latest, macos-latest]
-        include:
-          - os: ubuntu-latest
-            python-version: 3.9
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
@@ -29,21 +25,41 @@ jobs:
           pip install --upgrade pip
           pip install twine wheel
       - name: Build and publish
-        if: matrix.os != 'ubuntu-latest'
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
         run: |
           python setup.py sdist bdist_wheel
           twine upload --skip-existing dist/*
-      - name: Build Linux Wheels
-        if: matrix.os == 'ubuntu-latest'
+      - name: Upload wheels
+        uses: actions/upload-artifact@v2
+        with:
+          name: wheels
+          path: dist/*.whl
+
+  deploy-linux:
+    name: Deploy Linux wheels
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/setup-qemu-action@v1
+      - uses: docker/setup-buildx-action@v1
+        with:
+          install: true
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install twine wheel
+      - name: Build and publish
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
         run: |
-          docker run -v `pwd`:/io quay.io/pypa/manylinux2014_x86_64 /io/scripts/manylinux.sh
-          docker run -v `pwd`:/io quay.io/pypa/manylinux2014_i686 /io/scripts/manylinux.sh
+          python scripts/manylinux.py
           twine upload --skip-existing dist/*
       - name: Upload wheels
         uses: actions/upload-artifact@v2

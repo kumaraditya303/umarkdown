@@ -6,8 +6,9 @@
 
 <p align="center" >
  <img src="https://img.shields.io/pypi/v/umarkdown?logo=pypi&style=flat-square"/>
- <img src="https://img.shields.io/pypi/dm/umarkdown?logo=markdown&style=flat-square" />
+ <img src="https://pepy.tech/badge/umarkdown" />
  <img src="https://img.shields.io/codecov/c/github/kumaraditya303/umarkdown?logo=codecov&style=flat-square" />
+<img src="https://api.netlify.com/api/v1/badges/2dad1b5d-eddc-4bff-8c6a-5bc00fd11acd/deploy-status" />
 </p>
 
 ---
