@@ -2,7 +2,7 @@
 
 ![](https://img.shields.io/pypi/v/umarkdown?logo=pypi&style=flat-square)
 [![Downloads](https://pepy.tech/badge/umarkdown)](https://pepy.tech/project/umarkdown)
-![](https://img.shields.io/codecov/c/github/kumaraditya303/umarkdown?logo=codecov&style=flat-square)
+![](https://img.shields.io/codecov/c/github/kumaraditya303/umarkdown?logo=codecov&style=flat-square)[![Netlify Status](https://api.netlify.com/api/v1/badges/2dad1b5d-eddc-4bff-8c6a-5bc00fd11acd/deploy-status)](https://app.netlify.com/sites/umarkdown/deploys)
 
 <img width="800" alt="Ultra Markdown" src="https://user-images.githubusercontent.com/59607654/103167048-d3524d00-484d-11eb-96ca-70608a7529fc.png">
 
