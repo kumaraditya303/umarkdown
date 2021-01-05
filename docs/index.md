@@ -14,7 +14,7 @@
 
 **Source** : [https://github.com/kumaraditya303/umarkdown](https://github.com/kumaraditya303/umarkdown)
 
-** Docs** : [https://kumaraditya303.github.io/umarkdown](https://kumaraditya303.github.io/umarkdown/)
+** Docs** : [https://umarkdown.netlify.app/](https://umarkdown.netlify.app/)
 
 ---
 

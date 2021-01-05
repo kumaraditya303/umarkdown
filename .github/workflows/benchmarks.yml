@@ -28,5 +28,3 @@ jobs:
         with:
           commit_message: "test: Update benchmarks"
           branch: master
-      - name: Upload Docs
-        run: mkdocs gh-deploy
