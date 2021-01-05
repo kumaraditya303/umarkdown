@@ -9,7 +9,7 @@ setup(
     name="umarkdown",
     author="Kumar Aditya",
     author_email="",
-    url="https://kumaraditya303.github.io/umarkdown",
+    url="https://umarkdown.netlify.app/",
     description="Python wrapper of Markdown using CMark.",
     keywords=["Markdown", "CMark"],
     long_description=Path("README.md").read_text(encoding="utf-8"),
