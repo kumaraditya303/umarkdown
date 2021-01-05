@@ -31,3 +31,35 @@ Options:
   --validate-utf8  Replace invalid UTF-8 sequences with U+FFFD.
   --help           Show this message and exit.
 ```
+
+### Example:
+
+#### Output to console:
+
+```markdown
+<!-- README.md -->
+
+# Hello World
+```
+
+```bash
+$ umarkdown README.md
+<h1>Hello World</h1>
+```
+
+#### Output to file:
+
+```markdown
+<!-- README.md -->
+
+# Hello World
+```
+
+```bash
+$ umarkdown README.md README.html
+```
+
+```html
+<!-- README.html -->
+<h1>Hello World</h1>
+```
