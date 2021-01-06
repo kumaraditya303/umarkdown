@@ -1,0 +1,9 @@
+docs: docs/**/*
+
+test: tests/**/*
+
+dependencies: requirements.txt
+
+build:
+  - scripts/**/*
+  - .github/**/*
