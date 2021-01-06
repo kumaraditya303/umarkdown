@@ -1,15 +1,29 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include <cmark.h>
-//=========================================================================
-// Converts Markdown to HTML
-// Set source_pos=True to include source position attribute.
-// Set hard_breaks=True to treat newlines as hard line breaks.
-// Set no_breaks=True to render soft line breaks as spaces.
-// Set unsafe=True to render raw HTML and dangerous URLs.
-// Set smart=True to use smart punctuation.
-// Set validate_utf8=True to replace invalid UTF-8 sequences with U+FFFD.
-//=========================================================================
+/**
+ * Documentation for Ultra Markdown.
+ */
+PyDoc_STRVAR(_internal_markdown_doc, "Converts Markdown to HTML\n \
+ \
+ Set source_pos=True to include source position attribute.\n \
+ Set hard_breaks=True to treat newlines as hard line breaks.\n \
+ Set no_breaks=True to render soft line breaks as spaces.\n \
+ Set unsafe=True to render raw HTML and dangerous URLs.\n \
+ Set smart=True to use smart punctuation.\n \
+ Set validate_utf8=True to replace invalid UTF-8 sequences with U+FFFD. \
+");
+
+PyDoc_STRVAR(_internal_doc, "Ultra Markdown is an ultrafast Markdown parser written in\
+pure C with bindings for Python3.7+. It internally uses CMark,\
+an ultrafast C library for parsing Markdown to HTML.\
+Unlike others, Ultra Markdown is written using Python's C API\
+which makes it ultrafast for parsing Markdown.");
+
+/**
+ * Implements markdown to html conversion.
+ */
+
 static PyObject *markdown(PyObject *self, PyObject *args, PyObject *kwargs)
 {
     int options = CMARK_OPT_DEFAULT;
@@ -94,27 +108,28 @@ static PyObject *markdown(PyObject *self, PyObject *args, PyObject *kwargs)
     return Py_BuildValue("s", result);
 }
 
+/*
+ * Module Methods Definition.
+ */
+
 static PyMethodDef methods[] = {
-    {"markdown", (PyCFunction)markdown, METH_VARARGS | METH_KEYWORDS, "Converts Markdown to HTML.\
-Set source_pos=True to include source position attribute.\
-Set hard_breaks=True to treat newlines as hard line breaks.\
-Set no_breaks=True to render soft line breaks as spaces.\
-Set unsafe=True to render raw HTML and dangerous URLs.\
-Set smart=True to use smart punctuation.\
-Set validate_utf8=True to replace invalid UTF-8 sequences with U+FFFD."},
+    {"markdown", (PyCFunction)markdown, METH_VARARGS | METH_KEYWORDS, _internal_markdown_doc},
     {NULL, NULL, 0, NULL}};
+
+/*
+ * Module Definition.
+ */
 
 static struct PyModuleDef module = {
     PyModuleDef_HEAD_INIT,
     "_internal",
-    "Ultra Markdown is an ultrafast Markdown parser written in\
-pure C with bindings for Python3.7+. It internally uses CMark,\
-an ultrafast C library for parsing Markdown to HTML.\
-Unlike others, Ultra Markdown is written using Python's C API\
-which makes it ultrafast for parsing Markdown.",
+    _internal_doc,
     -1,
     methods};
 
+/*
+ * Module Initialization.
+ */
 PyMODINIT_FUNC PyInit__internal(void)
 {
     return PyModule_Create(&module);
