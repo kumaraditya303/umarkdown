@@ -6,6 +6,9 @@
 
 Used to parse file instead of string.
 
+!!! note
+    Raises `TypeError` when file does not exists.
+
 ```markdown
 <!-- README.md -->
 

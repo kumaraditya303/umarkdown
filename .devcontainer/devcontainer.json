@@ -18,7 +18,8 @@
 	},
 	"extensions": [
 		"ms-python.python",
-		"ms-python.vscode-pylance"
+		"ms-python.vscode-pylance",
+		"ms-vscode.cpptools"
 	],
-	"postCreateCommand": "pip install -e. && pip install -r requirements.txt && pre-commit install",
+	"postCreateCommand": "pip install -r requirements.txt && pip install -e. && pre-commit install",
 }

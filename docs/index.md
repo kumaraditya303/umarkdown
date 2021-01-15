@@ -15,7 +15,7 @@
 
 **Source** : [https://github.com/kumaraditya303/umarkdown](https://github.com/kumaraditya303/umarkdown)
 
-** Docs** : [https://umarkdown.netlify.app/](https://umarkdown.netlify.app/)
+**Docs** : [https://umarkdown.netlify.app/](https://umarkdown.netlify.app/)
 
 ---
 
@@ -61,7 +61,7 @@ $ python -m pip install umarkdown[cli]
 - Clone the repository:
 
 ```bash
-$ git clone https://github.com/kumaraditya303/umarkdown
+$ git clone --recursive https://github.com/kumaraditya303/umarkdown
 ```
 
 - Install requirements with pip:
