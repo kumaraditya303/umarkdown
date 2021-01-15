@@ -5,7 +5,6 @@
  * Documentation for Ultra Markdown.
  */
 PyDoc_STRVAR(_internal_markdown_doc, "Converts Markdown to HTML\n \
- \
  Set source_pos=True to include source position attribute.\n \
  Set hard_breaks=True to treat newlines as hard line breaks.\n \
  Set no_breaks=True to render soft line breaks as spaces.\n \
@@ -137,5 +136,7 @@ static struct PyModuleDef module = {
  */
 PyMODINIT_FUNC PyInit__internal(void)
 {
-    return PyModule_Create(&module);
+    PyObject *m = PyModule_Create(&module);
+    PyModule_AddStringConstant(m, "CMARK_VERSION", CMARK_VERSION_STRING);
+    return m;
 }
