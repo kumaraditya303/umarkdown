@@ -1,7 +1,6 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 import os
-import subprocess
 from glob import glob
 from pathlib import Path
 
@@ -15,7 +14,7 @@ class build_ext(_build_ext):
         os.chdir(os.path.join(os.path.dirname(__file__), "third_party", "cmark"))
         os.makedirs("build", exist_ok=True)
         os.chdir("build")
-        subprocess.check_call("cmake ..")
+        os.system("cmake ..")
         os.chdir(oldcwd)
         return super().run()
 
