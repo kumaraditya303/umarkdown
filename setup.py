@@ -1,9 +1,24 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
+import os
+import subprocess
 from glob import glob
 from pathlib import Path
 
 from setuptools import Extension, setup
+from setuptools.command.build_ext import build_ext as _build_ext
+
+
+class build_ext(_build_ext):
+    def run(self):
+        oldcwd = os.getcwd()
+        os.chdir(os.path.join(os.path.dirname(__file__), "third_party", "cmark"))
+        os.makedirs("build", exist_ok=True)
+        os.chdir("build")
+        subprocess.check_call("cmake ..")
+        os.chdir(oldcwd)
+        return super().run()
+
 
 setup(
     name="umarkdown",
@@ -22,12 +37,11 @@ setup(
     ext_modules=[
         Extension(
             "umarkdown._internal",
-            sources=[*glob("./umarkdown/*.c"), *glob("./lib/*.c")],
-            include_dirs=["./umarkdown", "./lib"],
-            extra_compile_args=["-D_GNU_SOURCE"],
-            extra_link_args=["-lm"],
+            sources=["./umarkdown/_internal.c", *glob("./third_party/cmark/src/*.c")],
+            include_dirs=["./third_party/cmark/src/", "./third_party/cmark/build/src/"],
         )
     ],
+    cmdclass={"build_ext": build_ext},
     classifiers=[
         "Programming Language :: C",
         "Programming Language :: Python",

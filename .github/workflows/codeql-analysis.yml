@@ -17,8 +17,9 @@ jobs:
       matrix:
         language: ["cpp", "python"]
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
       - name: Set up Python
         uses: actions/setup-python@v2
         with:

@@ -6,4 +6,4 @@ dependencies: requirements.txt
 
 build:
   - scripts/**/*
-  - .github/**/*
+  - setup*
