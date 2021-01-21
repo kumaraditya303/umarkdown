@@ -1,6 +1,6 @@
 from typing import Optional, overload
 
-
+CMARK_VERSION: str
 @overload
 def markdown(
     text: str,

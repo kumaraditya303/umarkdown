@@ -5,7 +5,6 @@
  * Documentation for Ultra Markdown.
  */
 PyDoc_STRVAR(_internal_markdown_doc, "Converts Markdown to HTML\n \
- \
  Set source_pos=True to include source position attribute.\n \
  Set hard_breaks=True to treat newlines as hard line breaks.\n \
  Set no_breaks=True to render soft line breaks as spaces.\n \
@@ -32,6 +31,7 @@ static PyObject *markdown(PyObject *self, PyObject *args, PyObject *kwargs)
     char *text = NULL;
     char *text_file = NULL;
     char *output_file = NULL;
+    char *result = NULL;
     PyObject *osourcepos = NULL;
     PyObject *ohardbreaks = NULL;
     PyObject *onobreaks = NULL;
@@ -81,13 +81,13 @@ static PyObject *markdown(PyObject *self, PyObject *args, PyObject *kwargs)
         fin = fopen(text_file, "r");
         if (fin == NULL)
         {
-            PyErr_SetString(PyExc_ValueError, "file not found");
+            PyErr_SetString(PyExc_TypeError, "file not found");
             return NULL;
         }
 
         cmark_node *doc = cmark_parse_file(fin, options);
         fclose(fin);
-        char *result = cmark_render_html(doc, options);
+        result = cmark_render_html(doc, options);
         cmark_node_free(doc);
         if (output_file != NULL)
         {
@@ -95,16 +95,20 @@ static PyObject *markdown(PyObject *self, PyObject *args, PyObject *kwargs)
             fout = fopen(output_file, "w+");
             fprintf(fout, "%s", result);
             fclose(fout);
-            if (PyErr_Occurred())
-            {
-                return NULL;
-            }
             Py_RETURN_TRUE;
         }
         return Py_BuildValue("s", result);
     }
+    result = cmark_markdown_to_html(text, strlen(text), options);
+    if (output_file != NULL)
+    {
+        FILE *fout;
+        fout = fopen(output_file, "w+");
+        fprintf(fout, "%s", result);
+        fclose(fout);
+        Py_RETURN_TRUE;
+    }
 
-    char *result = cmark_markdown_to_html(text, strlen(text), options);
     return Py_BuildValue("s", result);
 }
 
@@ -132,5 +136,7 @@ static struct PyModuleDef module = {
  */
 PyMODINIT_FUNC PyInit__internal(void)
 {
-    return PyModule_Create(&module);
+    PyObject *m = PyModule_Create(&module);
+    PyModule_AddStringConstant(m, "CMARK_VERSION", CMARK_VERSION_STRING);
+    return m;
 }

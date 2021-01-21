@@ -12,6 +12,7 @@ theme:
     code: Source Code Pro
   logo: images/umarkdown.svg
 markdown_extensions:
+  - admonition
   - pymdownx.highlight
   - pymdownx.superfences
   - toc:

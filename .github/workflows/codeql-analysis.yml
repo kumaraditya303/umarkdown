@@ -17,8 +17,9 @@ jobs:
       matrix:
         language: ["cpp", "python"]
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -27,7 +28,7 @@ jobs:
         uses: github/codeql-action/init@v1
         with:
           languages: ${{ matrix.language }}
-
+      - run: pip install -r requirements.txt
       - run: python setup.py build_ext --inplace
 
       - name: Perform CodeQL Analysis

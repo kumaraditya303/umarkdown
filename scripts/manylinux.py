@@ -35,7 +35,7 @@ def main(client: DockerClient) -> None:
         "/io/scripts/manylinux.sh",
         volumes={os.getcwd(): {"bind": "/io"}},
     )
-    print("Wheels built Successfully.")
+    print("\t\tWheels built Successfully.")
 
 
 if __name__ == "__main__":
