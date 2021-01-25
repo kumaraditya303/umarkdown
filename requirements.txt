@@ -2,7 +2,7 @@ click==7.1.2
 cmake==3.18.4.post1
 docker==4.4.1
 Markdown==3.3.3
-markdown2==2.3.10
+markdown2==2.4.0
 matplotlib==3.3.3
 mkdocs-material==6.2.5
 pre-commit==2.9.3
