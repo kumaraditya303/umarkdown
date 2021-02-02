@@ -24,35 +24,13 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        if: startsWith(runner.os, 'macOS')
-        with:
-          path: ~/Library/Caches/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: ${{ runner.os }}-pip-
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        if: matrix.os == 'ubuntu-latest'
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
           pip install --upgrade pip wheel
-          pip install -r requirements.txt
-          pip install -e .
+          pip install tox
       - name: Lint
-        run: pre-commit run --all-files
-      - name: Build Wheels
-        run: python setup.py bdist_wheel
-      - name: Upload Wheels
-        uses: actions/upload-artifact@v2
-        with:
-          name: wheels
-          path: dist/*.whl
+        run: tox -e lint
       - name: Test with PyTest
-        run: pytest
+        run: tox -e py
       - name: Upload Coverage Report
         uses: codecov/codecov-action@v1.2.1
