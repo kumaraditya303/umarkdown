@@ -81,6 +81,7 @@ share/python-wheels/
 *.egg
 MANIFEST
 .vscode/
+builddir
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
@@ -100,9 +101,6 @@ coverage.xml
 .pytest_cache/
 pytestdebug.log
 
-# Translations
-*.mo
-*.pot
 
 # Environments
 .env
@@ -121,9 +119,3 @@ pythonenv*
 .mypy_cache/
 .dmypy.json
 dmypy.json
-
-# pytype static type analyzer
-.pytype/
-
-# profiling data
-.prof

@@ -1,6 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 import os
+import shutil
 import subprocess
 from glob import glob
 from pathlib import Path
@@ -13,7 +14,9 @@ class build_ext(_build_ext):
     def run(self):
         oldcwd = os.getcwd()
         os.chdir(os.path.join(os.path.dirname(__file__), "third_party", "cmark"))
-        os.makedirs("build", exist_ok=True)
+        if os.path.exists("build"):
+            shutil.rmtree("build")
+        os.makedirs("build")
         os.chdir("build")
         subprocess.check_call(["cmake", ".."])
         os.chdir(oldcwd)
