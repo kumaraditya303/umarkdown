@@ -67,5 +67,4 @@ setup(
     extras_require={
         "cli": ["click==7.1.2"],
     },
-    setup_requires=["setuptools_scm", "wheel"],
 )
