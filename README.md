@@ -52,7 +52,7 @@ Can be used as a drop in replacement for most Markdown parsers.
 
 ## Benchmarks
 
-![](./docs/images/benchmarks.svg)
+![](https://raw.githubusercontent.com/kumaraditya303/umarkdown/master/docs/images/benchmarks.svg)
 
 - Higher score is better.
 
