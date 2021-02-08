@@ -27,10 +27,11 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip wheel
-          pip install tox
+          pip install -e.
+          pip install -r requirements.txt
       - name: Lint
-        run: tox -e lint
-      - name: Test with PyTest
-        run: tox -e py
+        run: pre-commit run --all-files
+      - name: Test with Pytest
+        run: pytest
       - name: Upload Coverage Report
         uses: codecov/codecov-action@v1.2.1

@@ -24,14 +24,13 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install twine wheel
-          pip install -r requirements.txt
+          pip install twine wheel build
       - name: Build and publish
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
         run: |
-          python setup.py sdist bdist_wheel
+          python -m build
           twine upload --skip-existing dist/*
       - name: Upload wheels
         uses: actions/upload-artifact@v2
@@ -46,9 +45,6 @@ jobs:
         with:
           submodules: true
       - uses: docker/setup-qemu-action@v1
-      - uses: docker/setup-buildx-action@v1
-        with:
-          install: true
       - name: Set up Python 3.9
         uses: actions/setup-python@v2
         with:
@@ -64,7 +60,7 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
         run: |
           python scripts/manylinux.py
-          twine upload --skip-existing dist/*
+          twine upload --skip-existing dist/*.whl
       - name: Upload wheels
         uses: actions/upload-artifact@v2
         with:
