@@ -84,17 +84,20 @@ static PyObject *markdown(PyObject *self, PyObject *args, PyObject *kwargs)
             PyErr_SetString(PyExc_TypeError, "file not found");
             return NULL;
         }
-
+        Py_BEGIN_ALLOW_THREADS
         cmark_node *doc = cmark_parse_file(fin, options);
         fclose(fin);
         result = cmark_render_html(doc, options);
         cmark_node_free(doc);
+        Py_END_ALLOW_THREADS
         if (output_file != NULL)
         {
+            Py_BEGIN_ALLOW_THREADS
             FILE *fout;
             fout = fopen(output_file, "w+");
             fprintf(fout, "%s", result);
             fclose(fout);
+            Py_END_ALLOW_THREADS
             Py_RETURN_TRUE;
         }
         return Py_BuildValue("s", result);
@@ -102,10 +105,12 @@ static PyObject *markdown(PyObject *self, PyObject *args, PyObject *kwargs)
     result = cmark_markdown_to_html(text, strlen(text), options);
     if (output_file != NULL)
     {
+        Py_BEGIN_ALLOW_THREADS
         FILE *fout;
         fout = fopen(output_file, "w+");
         fprintf(fout, "%s", result);
         fclose(fout);
+        Py_END_ALLOW_THREADS
         Py_RETURN_TRUE;
     }
 

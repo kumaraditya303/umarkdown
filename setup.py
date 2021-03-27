@@ -1,6 +1,5 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
-import os
 import shutil
 import subprocess
 from glob import glob
@@ -12,14 +11,11 @@ from setuptools.command.build_ext import build_ext as _build_ext
 
 class build_ext(_build_ext):
     def run(self):
-        oldcwd = os.getcwd()
-        os.chdir(os.path.join(os.path.dirname(__file__), "third_party", "cmark"))
-        if os.path.exists("build"):
-            shutil.rmtree("build")
-        os.makedirs("build")
-        os.chdir("build")
-        subprocess.check_call(["cmake", ".."])
-        os.chdir(oldcwd)
+        cmark_build = Path(__file__).parent / "third_party" / "cmark" / "build"
+        if (cmark_build).exists():
+            shutil.rmtree(cmark_build)
+        cmark_build.mkdir(exist_ok=True)
+        subprocess.check_call(["cmake", ".."], cwd=cmark_build)
         return super().run()
 
 
