@@ -1,5 +1,5 @@
 click==7.1.2
-docker==4.4.4
+docker==5.0.0
 Markdown==3.3.4
 markdown2==2.4.0
 matplotlib==3.4.1
