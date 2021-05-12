@@ -1,4 +1,4 @@
-click==7.1.2
+click==8.0.0
 docker==5.0.0
 Markdown==3.3.4
 markdown2==2.4.0
