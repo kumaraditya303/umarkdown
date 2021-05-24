@@ -4,6 +4,6 @@ Markdown==3.3.4
 markdown2==2.4.0
 matplotlib==3.4.2
 mkdocs-material==7.1.5
-pre-commit==2.12.1
+pre-commit==2.13.0
 pytest==6.2.4
 pytest-cov==2.12.0
