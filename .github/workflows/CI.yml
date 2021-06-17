@@ -30,7 +30,7 @@ jobs:
           pip install -e.
           pip install -r requirements.txt
       - name: Lint
-        uses: pre-commit/action@v2.0.0
+        uses: pre-commit/action@v2.0.3
       - name: Test with Pytest
         run: pytest
       - name: Upload Coverage Report
