@@ -2,7 +2,7 @@ click==8.0.1
 Markdown==3.3.4
 markdown2==2.4.0
 matplotlib==3.4.3
-mkdocs-material==7.2.4
+mkdocs-material==7.3.0
 pre-commit==2.13.0
 pytest==6.2.5
 pytest-cov==2.12.1
