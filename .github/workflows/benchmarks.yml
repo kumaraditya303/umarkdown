@@ -9,7 +9,7 @@ jobs:
   benchmarks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v3.0.0
         with:
           submodules: true
       - name: Set up Python 3.9
