@@ -25,7 +25,7 @@ jobs:
       - name: Benchmark
         run: python tests/benchmarks.py
       - name: Upload benchmarks
-        uses: stefanzweifel/git-auto-commit-action@v4.13.1
+        uses: stefanzweifel/git-auto-commit-action@v4.14.1
         with:
           commit_message: "test: Update benchmarks"
           branch: master
