@@ -7,9 +7,9 @@ from umarkdown import markdown
 
 
 def test_umarkdown_with_text():
-    with pytest.raises(TypeError):
+    with pytest.raises(ValueError):
         markdown()
-    with pytest.raises(TypeError):
+    with pytest.raises(FileNotFoundError):
         markdown(text_file="not_exists.md")
     assert "<h1>Hello World</h1>\n" == markdown(text="# Hello World")
 

@@ -7,7 +7,7 @@
 Used to parse file instead of string.
 
 !!! note
-    Raises `TypeError` when file does not exists.
+    Raises `FileNotFoundError` when file does not exists.
 
 ```markdown
 <!-- README.md -->
