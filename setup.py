@@ -38,6 +38,7 @@ setup(
             "umarkdown._internal",
             sources=["./umarkdown/_internal.c", *glob("./third_party/cmark/src/*.c")],
             include_dirs=["./third_party/cmark/src/", "./third_party/cmark/build/src/"],
+            py_limited_api=True,
         )
     ],
     cmdclass={"build_ext": build_ext},

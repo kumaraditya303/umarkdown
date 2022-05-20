@@ -1,9 +1,8 @@
 #define PY_SSIZE_T_CLEAN
+#define Py_LIMITED_API 0x03050000
 #include <Python.h>
 #include <cmark.h>
-/**
- * Documentation for Ultra Markdown.
- */
+
 PyDoc_STRVAR(_internal_markdown_doc, "Converts Markdown to HTML\n \
  Set source_pos=True to include source position attribute.\n \
  Set hard_breaks=True to treat newlines as hard line breaks.\n \
@@ -23,10 +22,11 @@ which makes it ultrafast for parsing Markdown.");
  * Implements markdown to html conversion.
  */
 
-static PyObject *markdown(PyObject *self, PyObject *args, PyObject *kwargs)
+static PyObject *
+markdown(PyObject *self, PyObject *args, PyObject *kwargs)
 {
     int options = CMARK_OPT_DEFAULT;
-    char *kwlist[] = {"text", "text_file", "output_file", "source_pos", "hard_breaks",
+    static char *kwlist[] = {"text", "text_file", "output_file", "source_pos", "hard_breaks",
                       "no_breaks", "smart", "unsafe", "validate_utf8", NULL};
     char *text = NULL;
     char *text_file = NULL;
@@ -47,7 +47,7 @@ static PyObject *markdown(PyObject *self, PyObject *args, PyObject *kwargs)
     }
     if ((text == NULL && text_file == NULL) || (text != NULL && text_file != NULL))
     {
-        PyErr_SetString(PyExc_TypeError, "either provide text or text_file");
+        PyErr_SetString(PyExc_ValueError, "either provide text or text_file");
         return NULL;
     }
 
@@ -81,7 +81,7 @@ static PyObject *markdown(PyObject *self, PyObject *args, PyObject *kwargs)
         fin = fopen(text_file, "r");
         if (fin == NULL)
         {
-            PyErr_SetString(PyExc_TypeError, "file not found");
+            PyErr_SetString(PyExc_FileNotFoundError, "file not found");
             return NULL;
         }
         Py_BEGIN_ALLOW_THREADS
@@ -90,58 +90,57 @@ static PyObject *markdown(PyObject *self, PyObject *args, PyObject *kwargs)
         result = cmark_render_html(doc, options);
         cmark_node_free(doc);
         Py_END_ALLOW_THREADS
-        if (output_file != NULL)
-        {
-            Py_BEGIN_ALLOW_THREADS
-            FILE *fout;
-            fout = fopen(output_file, "w+");
-            fprintf(fout, "%s", result);
-            fclose(fout);
-            Py_END_ALLOW_THREADS
-            Py_RETURN_TRUE;
-        }
-        return Py_BuildValue("s", result);
+        goto write_output;
     }
     result = cmark_markdown_to_html(text, strlen(text), options);
+
+write_output:
     if (output_file != NULL)
     {
         Py_BEGIN_ALLOW_THREADS
-        FILE *fout;
-        fout = fopen(output_file, "w+");
-        fprintf(fout, "%s", result);
+        FILE *fout = fopen(output_file, "w+");
+        fputs(result, fout);
         fclose(fout);
         Py_END_ALLOW_THREADS
         Py_RETURN_TRUE;
     }
 
-    return Py_BuildValue("s", result);
+    return PyUnicode_FromString(result);
 }
 
-/*
- * Module Methods Definition.
- */
-
-static PyMethodDef methods[] = {
+static PyMethodDef
+mod_methods[] = {
     {"markdown", (PyCFunction)markdown, METH_VARARGS | METH_KEYWORDS, _internal_markdown_doc},
-    {NULL, NULL, 0, NULL}};
+    {NULL, NULL, 0, NULL}
+};
 
-/*
- * Module Definition.
- */
-
-static struct PyModuleDef module = {
-    PyModuleDef_HEAD_INIT,
-    "_internal",
-    _internal_doc,
-    -1,
-    methods};
-
-/*
- * Module Initialization.
- */
-PyMODINIT_FUNC PyInit__internal(void)
+static int
+mod_exec(PyObject *module)
 {
-    PyObject *m = PyModule_Create(&module);
-    PyModule_AddStringConstant(m, "CMARK_VERSION", CMARK_VERSION_STRING);
-    return m;
+    if (PyModule_AddStringConstant(module, "CMARK_VERSION", CMARK_VERSION_STRING) < 0){
+        return -1;
+    }
+    return 0;
+}
+
+static PyModuleDef_Slot
+mod_slots[] = {
+    {Py_mod_exec, mod_exec},
+    {0, NULL}
+};
+
+static struct
+PyModuleDef module = {
+    PyModuleDef_HEAD_INIT,
+    .m_name = "_internal",
+    .m_doc = _internal_doc,
+    .m_size = 0,
+    .m_methods = mod_methods,
+    .m_slots = mod_slots,
+};
+
+PyMODINIT_FUNC
+PyInit__internal(void)
+{
+    return PyModuleDef_Init(&module);
 }
