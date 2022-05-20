@@ -10,6 +10,15 @@ from setuptools.command.build_ext import build_ext as _build_ext
 
 
 class build_ext(_build_ext):
+
+    def get_tag(self):
+        python, abi, plat = super().get_tag()
+
+        if python.startswith("cp"):
+            return "cp37", "abi3", plat
+
+        return python, abi, plat
+
     def run(self):
         cmark_build = Path(__file__).parent / "third_party" / "cmark" / "build"
         if (cmark_build).exists():
@@ -38,6 +47,7 @@ setup(
             "umarkdown._internal",
             sources=["./umarkdown/_internal.c", *glob("./third_party/cmark/src/*.c")],
             include_dirs=["./third_party/cmark/src/", "./third_party/cmark/build/src/"],
+            define_macros=[("Py_LIMITED_API", "0x03060000")],
             py_limited_api=True,
         )
     ],
@@ -62,6 +72,6 @@ setup(
     use_scm_version=True,
     python_requires=">=3.7",
     extras_require={
-        "cli": ["click==8.1.3"],
+        "cli": ["click==8.0.3"],
     },
 )
