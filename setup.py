@@ -10,7 +10,6 @@ from setuptools.command.build_ext import build_ext as _build_ext
 
 
 class build_ext(_build_ext):
-
     def get_tag(self):
         python, abi, plat = super().get_tag()
 
