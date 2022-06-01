@@ -7,16 +7,21 @@ from pathlib import Path
 
 from setuptools import Extension, setup
 from setuptools.command.build_ext import build_ext as _build_ext
+from wheel.bdist_wheel import bdist_wheel
+
+
+class bdist_wheel_abi3(bdist_wheel):
+    def get_tag(self):
+        python, abi, plat = super().get_tag()
+        if python.startswith("cp"):
+            return "cp37", "abi3", plat
+        return python, abi, plat
 
 
 class build_ext(_build_ext):
-    def get_tag(self):
-        _, _, plat = super().get_tag()
-        return "cp37", "abi3", plat
-
     def run(self):
         cmark_build = Path(__file__).parent / "third_party" / "cmark" / "build"
-        if (cmark_build).exists():
+        if cmark_build.exists():
             shutil.rmtree(cmark_build)
         cmark_build.mkdir(exist_ok=True)
         subprocess.check_call(["cmake", ".."], cwd=cmark_build)
@@ -46,7 +51,7 @@ setup(
             py_limited_api=True,
         )
     ],
-    cmdclass={"build_ext": build_ext},
+    cmdclass={"build_ext": build_ext, "bdist_wheel": bdist_wheel_abi3},
     classifiers=[
         "Programming Language :: C",
         "Programming Language :: Python",
