@@ -35,3 +35,29 @@ jobs:
         run: pytest
       - name: Upload Coverage Report
         uses: codecov/codecov-action@v3.1.0
+
+  wheel:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v3.0.2
+        with:
+          submodules: true
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v3.1.2
+        with:
+          python-version: 3.x
+      - name: Set up QEMU
+        if: runner.os == 'Linux'
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: all
+      - name: Build wheels
+        uses: pypa/cibuildwheel@main
+      - name: Upload wheels
+        uses: actions/upload-artifact@v3
+        with:
+          path: wheelhouse/*.whl
