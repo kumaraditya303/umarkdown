@@ -9,11 +9,11 @@ jobs:
   benchmarks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@v3.2.0
         with:
           submodules: true
       - name: Set up Python 3.9
-        uses: actions/setup-python@v4.3.0
+        uses: actions/setup-python@v4.3.1
         with:
           python-version: "3.9"
 
@@ -25,7 +25,7 @@ jobs:
       - name: Benchmark
         run: python tests/benchmarks.py
       - name: Upload benchmarks
-        uses: stefanzweifel/git-auto-commit-action@v4.15.4
+        uses: stefanzweifel/git-auto-commit-action@v4.16.0
         with:
           commit_message: "test: Update benchmarks"
           branch: master
