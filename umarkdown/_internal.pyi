@@ -1,8 +1,7 @@
-from typing import Optional, overload
+from typing import Optional
 
 CMARK_VERSION: str
 
-@overload
 def markdown(
     text: str,
     source_pos: Optional[bool] = ...,
