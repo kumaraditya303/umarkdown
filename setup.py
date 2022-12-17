@@ -14,7 +14,7 @@ class bdist_wheel_abi3(bdist_wheel):
     def get_tag(self):
         python, abi, plat = super().get_tag()
         if python.startswith("cp"):
-            return "cp37", "abi3", plat
+            return "cp38", "abi3", plat
         return python, abi, plat
 
 
@@ -56,7 +56,6 @@ setup(
         "Programming Language :: C",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3 :: Only",
