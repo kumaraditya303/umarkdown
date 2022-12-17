@@ -1,35 +1,13 @@
 # -*- coding: utf-8 -*-
-from pathlib import Path
-
 import pytest
 
 from umarkdown import markdown
 
 
 def test_umarkdown_with_text():
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         markdown()
-    with pytest.raises(FileNotFoundError):
-        markdown(text_file="not_exists.md")
     assert "<h1>Hello World</h1>\n" == markdown(text="# Hello World")
-
-
-def test_umarkdown_with_text_file():
-    with open("hello.md", "w") as f:
-        f.write("# Hello World")
-    assert "<h1>Hello World</h1>\n" == markdown(text_file="hello.md")
-
-
-def test_umarkdown_with_output_file():
-    markdown("# Hello World", output_file="hello.html")
-    assert "<h1>Hello World</h1>\n" == Path("hello.html").read_text()
-
-
-def test_umarkdown_with_text_file_and_output_file():
-    with open("hello.md", "w") as f:
-        f.write("# Hello World")
-    assert markdown(text_file="hello.md", output_file="hello.html")
-    assert "<h1>Hello World</h1>\n" == Path("hello.html").read_text()
 
 
 def test_umarkdown_with_source_pos():

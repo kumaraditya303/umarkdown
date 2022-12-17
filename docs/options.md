@@ -2,42 +2,6 @@
 
 ### **Ultra Markdown** provides you with the following parsing features:
 
-- ## **text_file**
-
-Used to parse file instead of string.
-
-!!! note
-    Raises `FileNotFoundError` when file does not exists.
-
-```markdown
-<!-- README.md -->
-
-# Hello World
-```
-
-```python
->>> from umarkdown import markdown
->>> print(markdown(text_file="README.md"))
-<h1>Hello World</h1>
-```
-
----
-
-- ## **output_file**
-
-Used to write output to file.
-
-```python
->>> from umarkdown import markdown
->>> print(markdown("# Hello World", output_file="output.html"))
-True
-```
-
-```html
-<!-- output.html -->
-<h1>Hello World</h1>
-```
-
 ---
 
 - ## **source_pos**

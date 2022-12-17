@@ -12,7 +12,7 @@ PyDoc_STRVAR(_internal_markdown_doc, "Converts Markdown to HTML\n \
 ");
 
 PyDoc_STRVAR(_internal_doc, "Ultra Markdown is an ultrafast Markdown parser written in\
-pure C with bindings for Python3.7+. It internally uses CMark,\
+pure C with bindings for Python3.8+. It internally uses CMark,\
 an ultrafast C library for parsing Markdown to HTML.\
 Unlike others, Ultra Markdown is written using Python's C API\
 which makes it ultrafast for parsing Markdown.");
@@ -25,12 +25,9 @@ static PyObject *
 markdown(PyObject *self, PyObject *args, PyObject *kwargs)
 {
     int options = CMARK_OPT_DEFAULT;
-    static char *kwlist[] = {"text", "text_file", "output_file", "source_pos", "hard_breaks",
-                      "no_breaks", "smart", "unsafe", "validate_utf8", NULL};
+    static char *kwlist[] = {"text", "source_pos", "hard_breaks", "no_breaks",
+                             "smart", "unsafe", "validate_utf8", NULL};
     char *text = NULL;
-    char *text_file = NULL;
-    char *output_file = NULL;
-    char *result = NULL;
     PyObject *osourcepos = NULL;
     PyObject *ohardbreaks = NULL;
     PyObject *onobreaks = NULL;
@@ -38,18 +35,12 @@ markdown(PyObject *self, PyObject *args, PyObject *kwargs)
     PyObject *ounsafe = NULL;
     PyObject *ovalidateutf8 = NULL;
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "|sssOOOOOO", kwlist, &text, &text_file,
-                                     &output_file, &osourcepos, &ohardbreaks, &onobreaks,
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s|OOOOOO", kwlist, &text,
+                                     &osourcepos, &ohardbreaks, &onobreaks,
                                      &osmart, &ounsafe, &ovalidateutf8))
     {
         return NULL;
     }
-    if ((text == NULL && text_file == NULL) || (text != NULL && text_file != NULL))
-    {
-        PyErr_SetString(PyExc_ValueError, "either provide text or text_file");
-        return NULL;
-    }
-
     if (osourcepos != NULL && PyObject_IsTrue(osourcepos))
     {
         options |= CMARK_OPT_SOURCEPOS;
@@ -74,37 +65,15 @@ markdown(PyObject *self, PyObject *args, PyObject *kwargs)
     {
         options |= CMARK_OPT_VALIDATE_UTF8;
     }
-    if (text_file != NULL)
-    {
-        FILE *fin;
-        fin = fopen(text_file, "r");
-        if (fin == NULL)
-        {
-            PyErr_SetString(PyExc_FileNotFoundError, "file not found");
-            return NULL;
-        }
-        Py_BEGIN_ALLOW_THREADS
-        cmark_node *doc = cmark_parse_file(fin, options);
-        fclose(fin);
-        result = cmark_render_html(doc, options);
-        cmark_node_free(doc);
-        Py_END_ALLOW_THREADS
-        goto write_output;
-    }
+    char *result = NULL;
+    Py_BEGIN_ALLOW_THREADS
     result = cmark_markdown_to_html(text, strlen(text), options);
-
-write_output:
-    if (output_file != NULL)
-    {
-        Py_BEGIN_ALLOW_THREADS
-        FILE *fout = fopen(output_file, "w+");
-        fputs(result, fout);
-        fclose(fout);
-        Py_END_ALLOW_THREADS
-        Py_RETURN_TRUE;
-    }
-
-    return PyUnicode_FromString(result);
+    Py_END_ALLOW_THREADS
+    assert(result != NULL);
+    PyObject *ret = PyUnicode_FromString(result);
+    cmark_mem *allocator = cmark_get_default_mem_allocator();
+    allocator->free(result);
+    return ret;
 }
 
 static PyMethodDef
@@ -141,5 +110,10 @@ PyModuleDef module = {
 PyMODINIT_FUNC
 PyInit__internal(void)
 {
+    cmark_mem *allocator = cmark_get_default_mem_allocator();
+    allocator->calloc = PyObject_Calloc;
+    allocator->realloc = PyObject_Realloc;
+    allocator->free = PyObject_Free;
+
     return PyModuleDef_Init(&module);
 }

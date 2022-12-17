@@ -2,7 +2,7 @@
 
 <img width="800" alt="Ultra Markdown" src="https://user-images.githubusercontent.com/59607654/103167048-d3524d00-484d-11eb-96ca-70608a7529fc.png">
 
-<p align="center">Ultra Markdown, an ultra fast (high performance) Markdown parser written in pure C with bindings for Python 3.7+. </p>
+<p align="center">Ultra Markdown, an ultra fast (high performance) Markdown parser written in pure C with bindings for Python 3.8+. </p>
 
 <p align="center" >
  <img src="https://img.shields.io/pypi/v/umarkdown?logo=pypi&style=flat-square"/>
@@ -19,7 +19,7 @@
 
 ---
 
-_Ultra Markdown, an ultra fast (high performance) Markdown parser compliant with the markdown [spec](https://spec.commonmark.org/) written in pure C with bindings for Python 3.7+. Unlike others, **Ultra Markdown** is written using Python's C API and uses [CMark](https://github.com/commonmark/cmark), an ultra fast Markdown parser written in C._
+_Ultra Markdown, an ultra fast (high performance) Markdown parser compliant with the markdown [spec](https://spec.commonmark.org/) written in pure C with bindings for Python 3.8+. Unlike others, **Ultra Markdown** is written using Python's C API and uses [CMark](https://github.com/commonmark/cmark), an ultra fast Markdown parser written in C._
 
 ---
 
@@ -54,7 +54,7 @@ $ python -m pip install umarkdown[cli]
 > ### Prerequisites
 
 - Compiler: gcc or clang on Linux and MacOS, MSVC for Windows.
-- Python: 3.7 or greater
+- Python: 3.8 or greater
 
 > ### Installation Process
 
