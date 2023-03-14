@@ -41,7 +41,6 @@ def test_cli_with_source_pos(runner: CliRunner):
 
 
 def test_cli_with_hard_breaks(runner: CliRunner):
-
     with runner.isolated_filesystem():
         with open("hello.md", "w") as f:
             f.write("Hello,\nWorld!")
@@ -58,7 +57,6 @@ def test_cli_with_hard_breaks(runner: CliRunner):
 
 
 def test_cli_with_no_breaks(runner: CliRunner):
-
     with runner.isolated_filesystem():
         with open("hello.md", "w") as f:
             f.write("Hello,\nWorld!")
