@@ -27,7 +27,7 @@ mkdocs-material-extensions==1.1.1
 nodeenv==1.7.0
 numpy==1.24.1
 packaging==22.0
-Pillow==9.3.0
+Pillow==9.4.0
 pip-upgrade==0.0.6
 platformdirs==2.6.2
 pluggy==1.0.0
