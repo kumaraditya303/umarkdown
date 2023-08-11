@@ -1,4 +1,6 @@
 [project]
+name = "umarkdown"
+dynamic = ["version"]
 requires-python = ">=3.8"
 
 [build-system]
