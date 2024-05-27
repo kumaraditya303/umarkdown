@@ -5,7 +5,7 @@ Ultra Markdown
 --------------
 
 Ultra Markdown is an ultrafast Markdown parser written in
-pure C with bindings for Python3.8+. It internally uses CMark,
+pure C with bindings for Python3.9+. It internally uses CMark,
 an ultrafast C library for parsing Markdown to HTML.
 Unlike others, Ultra Markdown is written using Python's C API
 which makes it ultrafast for parsing Markdown.

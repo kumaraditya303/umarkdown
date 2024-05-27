@@ -6,7 +6,7 @@
 
 <img width="800" alt="Ultra Markdown" src="https://user-images.githubusercontent.com/59607654/103167048-d3524d00-484d-11eb-96ca-70608a7529fc.png">
 
-Ultra Markdown, an ultra fast (high performance) Markdown parser compliant with the markdown [spec](https://spec.commonmark.org/) written in pure C with bindings for Python 3.8+. Unlike others, **Ultra Markdown** is written using Python's C API and uses [CMark](https://github.com/commonmark/cmark), an ultra fast Markdown parser written in C.
+Ultra Markdown, an ultra fast (high performance) Markdown parser compliant with the markdown [spec](https://spec.commonmark.org/) written in pure C with bindings for Python 3.9+. Unlike others, **Ultra Markdown** is written using Python's C API and uses [CMark](https://github.com/commonmark/cmark), an ultra fast Markdown parser written in C.
 
 ---
 

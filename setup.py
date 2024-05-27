@@ -56,7 +56,6 @@ setup(
         "Programming Language :: C",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: Implementation :: CPython",
@@ -69,7 +68,7 @@ setup(
         "License :: OSI Approved :: BSD License",
     ],
     use_scm_version=True,
-    python_requires=">=3.8",
+    python_requires=">=3.9",
     extras_require={
         "cli": ["click==8.1.7"],
     },
