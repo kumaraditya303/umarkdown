@@ -86,7 +86,7 @@ def main(
             || Ultra Markdown Command Line Interface ||
             ===========================================
        Ultra Markdown is an ultrafast Markdown parser written in
-          pure C with bindings for Python3.8+. It internally
+          pure C with bindings for Python3.9+. It internally
     uses CMark, an ultrafast C library for parsing Markdown to HTML.
 
     """
