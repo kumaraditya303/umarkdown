@@ -9,7 +9,7 @@ coverage==7.5.2
 cycler==0.12.1
 distlib==0.3.8
 filelock==3.14.0
-fonttools==4.52.1
+fonttools==4.53.1
 ghp-import==2.1.0
 identify==2.5.36
 idna==3.7
