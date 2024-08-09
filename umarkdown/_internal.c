@@ -69,7 +69,11 @@ markdown(PyObject *self, PyObject *args, PyObject *kwargs)
     Py_BEGIN_ALLOW_THREADS
     result = cmark_markdown_to_html(text, strlen(text), options);
     Py_END_ALLOW_THREADS
-    assert(result != NULL);
+    if (result == NULL)
+    {
+        PyErr_NoMemory();
+        return NULL;
+    }
     PyObject *ret = PyUnicode_FromString(result);
     cmark_mem *allocator = cmark_get_default_mem_allocator();
     allocator->free(result);
@@ -110,10 +114,5 @@ PyModuleDef module = {
 PyMODINIT_FUNC
 PyInit__internal(void)
 {
-    cmark_mem *allocator = cmark_get_default_mem_allocator();
-    allocator->calloc = PyObject_Calloc;
-    allocator->realloc = PyObject_Realloc;
-    allocator->free = PyObject_Free;
-
     return PyModuleDef_Init(&module);
 }
