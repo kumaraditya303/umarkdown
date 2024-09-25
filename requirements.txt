@@ -1,7 +1,7 @@
 click==8.1.7
 coverage==7.5.2
 Markdown==3.6
-markdown2==2.4.13
+markdown2==2.5.0
 mkdocs
 mkdocs-material
 mkdocs-material-extensions
