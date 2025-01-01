@@ -74,6 +74,6 @@ setup(
     use_scm_version=True,
     python_requires=">=3.9",
     extras_require={
-        "cli": ["click==8.1.7"],
+        "cli": ["click==8.1.8"],
     },
 )
