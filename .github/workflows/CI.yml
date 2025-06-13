@@ -58,6 +58,6 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@main
       - name: Upload wheels
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: wheelhouse/*.whl
